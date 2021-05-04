@@ -34,14 +34,6 @@ class Window(QMainWindow):
         self.setWindowTitle("DonutChart Example")
         self.setGeometry(100,100, 400,600)
         self.create_donutchart(thisDict)
-        
-        #self.labl = QLabel(self)
-        #self.labl.setText('abc')
-        
-        #button = QPushButton('button', self)        
-        #button.move(50,50)
-        #button.clicked.connect(self.on_click)
-
         self.show()
        
     @pyqtSlot()
@@ -49,27 +41,17 @@ class Window(QMainWindow):
         self.labl.setText('some text')
         self.labl.adjustSize()
         
-       
-
 
     def create_donutchart(self, thisDict):
-
         series = QPieSeries()
         series.setHoleSize(0.35)
         
         for key, value in thisDict.items():
             series.append(key, value)
-        
-        
-        '''series.append("Protein 4.2%", 4.2)
-        series.append("Fat 15.6%", 15.6)
-        series.append("Other 23.8%", 23.8);
-        series.append("Carbs 56.4%", 56.4);'''
+       
 
         slice = QPieSlice()
-        #slice = series.append("Fat 15.6%", 15.6)
-        
-
+     
         chart = QChart()
         #chart.legend().hide()
         chart.addSeries(series)
@@ -83,7 +65,6 @@ class Window(QMainWindow):
         chartview.setRenderHint(QPainter.Antialiasing)
         
         # creating a widget object
-        
         widget = QWidget()
         
         # Creating a grid layout
@@ -92,27 +73,19 @@ class Window(QMainWindow):
         # setting this layout to the widget
         widget.setLayout(layout)
   
-
         self.setCentralWidget(chartview)
         
         series.doubleClicked.connect(self.handle_double_clicked)
         
-
+    #Show the update chart with the distribution of the selected slice
     def handle_double_clicked(self, slice):
-        i=50
-        #print(slice.label(), slice.value())
         slice.setExploded()
         slice.setLabelVisible()
         
         if slice.label() in self.thisDict:
-            print(slice.label());
             #print(slice.series().label());
             self.create_donutchart(self.thisDict[slice.label()])
-           
-            i=i+1
-            print(i);
-        
-       
+   
 
 
 App = QApplication(sys.argv)
@@ -120,5 +93,4 @@ app = QApplication([])
 window = Window()
 window.show()
 sys.exit(App.exec_())
-
 
