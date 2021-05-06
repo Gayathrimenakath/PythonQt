@@ -18,6 +18,7 @@ sample = {
      }
 }}
 
+
 def dict_to_model(item, d):
     if isinstance(d, dict):
         for k, v in d.items():
@@ -62,6 +63,7 @@ class Navigation(QtCore.QObject):
         print(index.data())
         #Chart(index.data())
         
+        
     #make the breadcrumbs clickable in order to go back and forth
     @QtCore.pyqtSlot(QtWidgets.QAction)
     def on_actionTriggered(self, action):
@@ -78,6 +80,7 @@ class Navigation(QtCore.QObject):
             action.setData(ix)
 
 
+
 class HomeScreen(QtCore.QObject):
     def __init__(self, a, parent=None):
         super(HomeScreen, self).__init__(parent)
@@ -86,6 +89,7 @@ class HomeScreen(QtCore.QObject):
         self.label1.setAutoFillBackground(True)
         self.label1.setFont(QtGui.QFont("Times", 20,weight=QtGui.QFont.Bold))
         self.label1.setAlignment(Qt.AlignCenter)
+       
        
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -115,7 +119,6 @@ class MainWindow(QtWidgets.QMainWindow):
         vbox = QVBoxLayout()
         vbox.addWidget(self.stacked_widget)
         vbox.addLayout(hbox)
-        
         
         h = HomeScreen(self)
         self.insert_page(h.label1)
@@ -164,7 +167,6 @@ if __name__ == '__main__':
     import sys
     app = QtWidgets.QApplication(sys.argv)
     w = MainWindow()
-    
     w.resize(400,300)
     w.show()
     sys.exit(app.exec_())
