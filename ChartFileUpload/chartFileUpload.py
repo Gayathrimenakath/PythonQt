@@ -4,55 +4,10 @@ from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QPainter
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import *
+from chart import Chart
+from HomeScreen import HomeScreen
 import json
 
-class Chart(QWidget):
-    def __init__(self, chartKey, data, parent=None):
-        super(Chart, self).__init__(parent)
-        self.data = data
-        self.create_chart(chartKey)
-      
-        
-    def create_chart(self, chartKey):
-        self.series = QPieSeries()
-        self.series.setHoleSize(0.35)
-        self.chart = QChart()
-        
-        #Add series to the chart
-        self.addSeries(chartKey)
-
-	# for the background and title
-        self.chart.setAnimationOptions(QChart.SeriesAnimations)
-        self.chart.setTitle("DonutChart Example")
-        self.chart.setTheme(QChart.ChartThemeBlueCerulean)
-
-        self.chartview = QChartView(self.chart)
-        self.chartview.setRenderHint(QPainter.Antialiasing)
-        
-        
-    def addSeries(self, key):
-        self.chart.removeAllSeries()
-        self.series = QPieSeries()
-        self.series.setHoleSize(0.35)
-            
-        for key, value in self.data[key].items():
-            print("adding series", str(key), value)
-            slice_ = QPieSlice(str(key), value)
-            self.series.append(slice_)
-       
-        self.chart.addSeries(self.series)
-        self.series.doubleClicked.connect(self.handle_double_clicked)
-             
-          
-    #Show the update chart with the distribution of the selected slice
-    def handle_double_clicked(self, slice):
-        slice.setExploded()
-        slice.setLabelVisible()
-     
-        if slice.label() in self.data.keys():
-            print("slice",slice.label());
-            self.addSeries(slice.label())
-           
 
 class HomeScreen(QtCore.QObject):
     def __init__(self, a, parent=None):
@@ -105,13 +60,20 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         
+        self.label3 = QtWidgets.QLabel()
+        self.label3.setGeometry(QtCore.QRect(10, 210, 500, 23))
+        self.label3.setObjectName("label3")
+        
         self.btn_Action = QtWidgets.QPushButton()
         self.btn_Action.setGeometry(QtCore.QRect(220, 200, 75, 23))
         self.btn_Action.setObjectName("btn_Action")
+        
         self.gridLayout3 = QtWidgets.QGridLayout()
+        self.gridLayout3.addWidget(self.label3, 0, 3, 7, 8)
         self.gridLayout3.addWidget(self.btn_Action, 0, 3, 3, 3)
         
         self.btn_Action.setText("View Chart")        
+        self.label3.setText('File Uploaded, check console for its contents')
         
         self.stacked_widget = QStackedWidget()
         self.stacked_widget.currentChanged.connect(self.set_button_state)
@@ -141,6 +103,7 @@ class MainWindow(QtWidgets.QMainWindow):
         file = open(name, 'r') 
         with file as json_file:
             text = json.load(json_file)
+            #self.label3.setText('File Uploaded, check console for its contents')
             chart = Chart('Alloys', text, self)
             self.insert_page(chart.chartview)
           
