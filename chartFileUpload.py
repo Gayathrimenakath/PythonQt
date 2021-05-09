@@ -6,65 +6,20 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import *
 import json
 
-
-sampleData = {
-  "Alloys":{
-      "Aluminium":25,
-      "Copper": 75
-    },
-    "Aluminium":{
-      "Duralumin": 20,
-      "Hydronalium":30,
-      "Magnaliuim": 50,     
-    },
-    "Magnaliuim":{
-      "aluminium":45,
-      "magnesium": 55
-    },
-    "Duralumin":{
-       "copper": 50,
-       "aluminium":50
-    },
-    "Hydronalium":{
-       "manganese": 1,
-       "magnesium": 12,
-       "aluminium": 87
-    },
-    "Copper":{
-       "Beryllium copper": 30,
-       "Billon": 45,
-       "Copper–tungsten" :35
-    },
-    "Beryllium copper":{
-       "Beryllium": 3,
-       "copper":97
-    },
-    "Billon":{
-       "gold": 13,
-       "copper": 87
-    },
-    "Copper–tungsten":{
-       "Tungsten": 40,
-       "copper":60
-    }
-  }
-
-
-
-
 class Chart(QWidget):
     def __init__(self, chartKey, data, parent=None):
         super(Chart, self).__init__(parent)
-        self.create_chart(chartKey, data, 0)
+        self.data = data
+        self.create_chart(chartKey)
       
         
-    def create_chart(self, chartKey, data, replace):
+    def create_chart(self, chartKey):
         self.series = QPieSeries()
         self.series.setHoleSize(0.35)
         self.chart = QChart()
         
         #Add series to the chart
-        self.addSeries(chartKey, data)
+        self.addSeries(chartKey)
 
 	# for the background and title
         self.chart.setAnimationOptions(QChart.SeriesAnimations)
@@ -76,12 +31,12 @@ class Chart(QWidget):
        
         
         
-    def addSeries(self, key, data):
+    def addSeries(self, key):
         self.chart.removeAllSeries()
         self.series = QPieSeries()
         self.series.setHoleSize(0.35)
             
-        for key, value in data[key].items():
+        for key, value in self.data[key].items():
             print("adding series", str(key), value)
             slice_ = QPieSlice(str(key), value)
             self.series.append(slice_)
@@ -96,7 +51,7 @@ class Chart(QWidget):
         slice.setExploded()
         slice.setLabelVisible()
      
-        if slice.label() in data.keys():
+        if slice.label() in self.data.keys():
             print("slice",slice.label());
             self.addSeries(slice.label())
            
