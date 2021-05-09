@@ -53,10 +53,10 @@ sampleData = {
 class Chart(QWidget):
     def __init__(self, chartKey, parent=None):
         super(Chart, self).__init__(parent)
-        self.create_chart(chartKey, 0)
+        self.create_chart(chartKey)
       
         
-    def create_chart(self, chartKey, replace):
+    def create_chart(self, chartKey):
         self.series = QPieSeries()
         self.series.setHoleSize(0.35)
         self.chart = QChart()
@@ -121,5 +121,7 @@ if __name__ == '__main__':
     import sys
     app = QtWidgets.QApplication(sys.argv)
     w = MainWindow()
+    w.resize(400,300)
     w.show()
     sys.exit(app.exec_())
+    
