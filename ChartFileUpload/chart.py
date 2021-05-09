@@ -1,10 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QWidget, QPushButton,QHBoxLayout, QVBoxLayout, QApplication, QStackedWidget, QLabel
+from PyQt5.QtWidgets import QWidget, QLabel
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QPainter
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import *
-import json
+
 
 class Chart(QWidget):
     def __init__(self, chartKey, data, parent=None):
