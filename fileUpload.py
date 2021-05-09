@@ -11,14 +11,13 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
-        self.gridLayout.setObjectName("gridLayout_2")
+        self.gridLayout.setObjectName("gridLayout")
         
         self.label1 = QtWidgets.QLabel(self.centralwidget)
         self.label1.setText('Welcome to PyQt5 example')
         self.label1.setAutoFillBackground(True)
         self.label1.setFont(QtGui.QFont("Times", 20,weight=QtGui.QFont.Bold))
         self.label1.setAlignment(Qt.AlignCenter)
-        
         
         self.label3 = QtWidgets.QLabel(self.centralwidget)
         self.label3.setGeometry(10, 210, 500, 23)
@@ -32,14 +31,11 @@ class Ui_MainWindow(object):
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         
-     
-        
         self.gridLayout2 = QtWidgets.QGridLayout()
-        self.gridLayout2.setObjectName("gridLayout")
+        self.gridLayout2.setObjectName("gridLayout2")
         self.label_2 = QtWidgets.QLabel(self.frame)
         self.label_2.setObjectName("label_2")
         self.gridLayout2.addWidget(self.label_2, 0, 0, 0, 1)
-        
         
         self.lineEdit = QtWidgets.QLineEdit(self.frame)
         self.lineEdit.setObjectName("lineEdit")
@@ -83,3 +79,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+    
