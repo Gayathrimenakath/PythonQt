@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QPainter
-#from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import *
 
 
@@ -113,7 +112,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # create main layout
         widget.setLayout(lay)
-        
         
         
 
