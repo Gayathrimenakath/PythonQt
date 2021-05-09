@@ -59,7 +59,6 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_2.setText(_translate("fileUpload", "File Name"))
         self.pushButton.setText(_translate("fileUpload", "Browse"))
