@@ -18,13 +18,13 @@ class TableView(QTableWidget):
         self.setData()
         
     def setData(self): 
-        horHeaders = []
+        colHeaders = []
         for n, key in enumerate(sorted(self.data.keys())):
-            horHeaders.append(key)
+            colHeaders.append(key)
             for m, item in enumerate(self.data[key]):
                 newitem = QTableWidgetItem(item)
                 self.setItem(m, n, newitem)
-        self.setHorizontalHeaderLabels(horHeaders)
+        self.setHorizontalHeaderLabels(colHeaders)
         
 
 
