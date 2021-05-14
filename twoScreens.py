@@ -1,5 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QWidget, QPushButton,QHBoxLayout, QVBoxLayout, QApplication, QStackedWidget, QLabel
+from PyQt5.QtWidgets import QWidget, QPushButton,QHBoxLayout, QVBoxLayout, QApplication, QStackedWidget, QLabel, QGroupBox
+import sys
+from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
+from PyQt5.QtGui import QPainter, QPen, QFont
+from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import *
 
@@ -17,6 +21,88 @@ sample = {
          "Copper–tungsten":["Tungsten","copper"],
      }
 }}
+
+
+sampleData = {
+  "Alloys": {
+        "Aluminium": 25,
+        "Copper": 75
+    },
+    "Aluminium": {
+        "Duralumin": 20,
+        "Hydronalium": 30,
+        "Magnaliuim": 50
+    },
+    "Magnaliuim": {
+        "aluminium": 45,
+        "magnesium": 55
+    },
+    "Duralumin": {
+        "copper": 50,
+        "aluminium": 50
+    },
+    "Hydronalium": {
+        "manganese": 1,
+        "magnesium": 12,
+        "aluminium": 87
+    },
+    "Copper": {
+        "Beryllium copper": 30,
+        "Billon": 45,
+        "Copper\u2013tungsten": 35
+    },
+    "Beryllium copper": {
+        "Beryllium": 3,
+        "copper": 97
+    },
+    "Billon": {
+        "gold": 13,
+        "copper": 87
+    },
+    "Copper\u2013tungsten": {
+        "Tungsten": 40,
+        "copper": 60
+    }
+   }
+
+
+class Chart(QWidget):
+    def __init__(self, chartKey, parent=None):
+        super(Chart, self).__init__(parent)
+        self.create_chart(chartKey, 0)
+      
+        
+    def create_chart(self, chartKey, replace):
+        self.series = QPieSeries()
+        self.series.setHoleSize(0.35)
+        self.chart = QChart()
+        
+        #Add series to the chart
+        self.addSeries(chartKey)
+
+	# for the background and title
+        self.chart.setAnimationOptions(QChart.SeriesAnimations)
+        self.chart.setTitle("DonutChart Example")
+        self.chart.setTheme(QChart.ChartThemeBlueCerulean)
+
+        self.chartview = QChartView(self.chart)
+        self.chartview.setRenderHint(QPainter.Antialiasing)
+       
+        
+        
+    def addSeries(self, key):
+        self.chart.removeAllSeries()
+        self.series = QPieSeries()
+        self.series.setHoleSize(0.35)
+        print('chart',key)
+            
+        for key, value in sampleData[key].items():
+            #print("adding series", str(key), value)
+            slice_ = QPieSlice(str(key), value)
+            self.series.append(slice_)
+       
+        self.chart.addSeries(self.series)
+        
 
 
 def dict_to_model(item, d):
@@ -50,6 +136,16 @@ class Navigation(QtCore.QObject):
         self.listview.setModel(self.model)
         self.listview.setRootIndex(ix)
         
+        self.layout = QHBoxLayout()
+        
+        self.layout.addWidget(self.listview)
+        self.chart = Chart('Alloys')
+        self.layout.addWidget(self.chart.chartview)
+        
+        self.horizontalGroupBox = QGroupBox()
+        self.horizontalGroupBox.setLayout(self.layout)
+
+        
 
     #make the listed items clickable
     @QtCore.pyqtSlot(QtCore.QModelIndex)
@@ -61,13 +157,14 @@ class Navigation(QtCore.QObject):
         action.setData(QtCore.QPersistentModelIndex(index))
         self.listview.setRootIndex(index)
         print(index.data())
-        #Chart(index.data())
+        self.chart.addSeries(index.data())
         
         
     #make the breadcrumbs clickable in order to go back and forth
     @QtCore.pyqtSlot(QtWidgets.QAction)
     def on_actionTriggered(self, action):
         ix = action.data()
+        self.chart.addSeries(ix.data())
         model = ix.model()
         self.listview.setRootIndex(QtCore.QModelIndex(ix))
         self.toolbar.clear()
@@ -124,7 +221,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.insert_page(h.label1)
         
         navigation = Navigation(sample, self)
-        self.insert_page(navigation.listview)
+        self.insert_page(navigation.horizontalGroupBox)
 
         #add the toolbar to the main window
         self.toolbar = navigation.toolbar
