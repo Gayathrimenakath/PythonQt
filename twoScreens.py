@@ -16,15 +16,15 @@ sample = {
         "Duralumin":["copper", "aluminium"]
        },
     "Copper":{
-         "Beryllium copper ":["Beryllium", "copper"],
+         "Beryllium copper":["Beryllium", "copper"],
    	 "Billon":["gold", "copper"],
-         "Copper–tungsten":["Tungsten","copper"],
+         "Copper tungsten":["Tungsten","copper"],
      }
 }}
 
 
 sampleData = {
-  "Alloys": {
+    "Alloys": {
         "Aluminium": 25,
         "Copper": 75
     },
@@ -49,7 +49,7 @@ sampleData = {
     "Copper": {
         "Beryllium copper": 30,
         "Billon": 45,
-        "Copper\u2013tungsten": 35
+        "Copper tungsten": 35
     },
     "Beryllium copper": {
         "Beryllium": 3,
@@ -59,11 +59,12 @@ sampleData = {
         "gold": 13,
         "copper": 87
     },
-    "Copper\u2013tungsten": {
+    "Copper tungsten": {
         "Tungsten": 40,
         "copper": 60
     }
-   }
+}
+
 
 
 class Chart(QWidget):
@@ -264,6 +265,6 @@ if __name__ == '__main__':
     import sys
     app = QtWidgets.QApplication(sys.argv)
     w = MainWindow()
-    w.resize(400,300)
+    w.resize(800,600)
     w.show()
     sys.exit(app.exec_())
