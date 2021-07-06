@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QWidget, QPushButton,QHBoxLayout, QVBoxLayout, QApplication, QStackedWidget, QLabel, QGroupBox
 import sys
+import sip
 from PyQt5.QtChart import QChart, QChartView, QPieSeries, QPieSlice
 from PyQt5.QtGui import QPainter, QPen, QFont
 from PyQt5.QtCore import pyqtSlot
@@ -117,13 +118,21 @@ class Chart(QtWidgets.QWidget):
                 self.series.append(slice_)
        
             self.chart.addSeries(self.series)
+            #self.frame.frame.hide()
+            
+            #self.frame.frame.removeWidget(self.table)
+            
             self.frame.frame.hide()
             self.chart.show()
         else:
             print('hi')
             
             self.table = TableView(data, 5, 4)
-            self.frame.ly.addWidget(self.table)
+            
+            
+            if self.frame.ly.count() == 0:
+                self.frame.ly.addWidget(self.table)
+            
             self.frame.frame.show()
             self.chart.hide()
             #print(frame)
