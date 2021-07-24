@@ -67,6 +67,9 @@ class Chart(QWidget):
             
             if self.frame.ly.count() == 0:
                 self.frame.ly.addWidget(self.table)
+            else:
+                self.frame.ly.itemAt(0).widget().setParent(None)
+                self.frame.ly.addWidget(self.table)
             '''if self.frame.ly.count() == 0:
                 self.frame.ly.addWidget(self.frame.table)'''
             

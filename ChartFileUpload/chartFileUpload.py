@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QWidget, QPushButton,QHBoxLayout, QVBoxLayout, QApplication, QStackedWidget, QLabel
+from PyQt5.QtWidgets import QWidget, QPushButton,QHBoxLayout, QVBoxLayout, QApplication, QStackedWidget, QLabel, QToolBar
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import *
 
@@ -42,10 +42,20 @@ class MainWindow(QtWidgets.QMainWindow):
         vbox.addWidget(self.stacked_widget)
         vbox.addLayout(hbox)
         
+        
+            
+        #add the to the main window
+        self.toolbar = QToolBar("Edit", self)
           
         h = HomeScreen(self)
         h.pushButton.clicked.connect(self.file_open)
         self.insert_page(h.centralwidget)
+        
+        self.addToolBar(self.toolbar)
+        
+        #start with the toolbar hidden
+        self.toolbar.toggleViewAction().setChecked(True)
+        self.toolbar.toggleViewAction().trigger()
         
         # create main layout
         widget.setLayout(vbox)
@@ -59,17 +69,10 @@ class MainWindow(QtWidgets.QMainWindow):
             #self.label3.setText('File Uploaded, check console for its contents')
             #chart = Chart('Alloys', text, self)
             #self.insert_page(chart.chartview)
+       
             navigation = Navigation(text, self)
-            
-            #add the toolbar to the main window
-            self.toolbar = navigation.toolbar
-            self.addToolBar(self.toolbar)
-        
-            #start with the toolbar hidden
-            self.toolbar.toggleViewAction().setChecked(True)
-            self.toolbar.toggleViewAction().trigger()
-
-            
+            self.addToolBar(navigation.toolbar)
+           
             self.insert_page(navigation.horizontalGroupBox)
             
             
