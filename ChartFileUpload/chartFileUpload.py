@@ -5,7 +5,10 @@ from PyQt5.QtGui import *
 
 from HomeScreen import HomeScreen
 from Navigation import Navigation
+from chart import Chart
 import json
+
+from mapCode import FileOpen
           
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -63,6 +66,18 @@ class MainWindow(QtWidgets.QMainWindow):
         
     def file_open(self):
         name, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', options=QtWidgets.QFileDialog.DontUseNativeDialog)
+        classObj = FileOpen.openFile(name)
+        #print(classObj)
+        #chart = Chart('pie1', classObj, self)
+        #self.insert_page(chart.chartview)
+        
+        navigation = Navigation(classObj, self)
+        #self.addToolBar(navigation.toolbar)
+           
+        self.insert_page(navigation.horizontalGroupBox)
+        #chart = Chart('pie1', classObj, self)
+        
+        '''name, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open File', options=QtWidgets.QFileDialog.DontUseNativeDialog)
         file = open(name, 'r') 
         with file as json_file:
             text = json.load(json_file)
@@ -73,7 +88,7 @@ class MainWindow(QtWidgets.QMainWindow):
             navigation = Navigation(text, self)
             self.addToolBar(navigation.toolbar)
            
-            self.insert_page(navigation.horizontalGroupBox)
+            self.insert_page(navigation.horizontalGroupBox)'''
             
             
           
